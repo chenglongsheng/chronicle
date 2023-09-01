@@ -2,76 +2,55 @@ package com.buyehou.chronicle
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.PersistableBundle
+import android.util.Log
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.buyehou.chronicle.group.GroupRecyclerView
+import com.buyehou.chronicle.databinding.ActivityMainBinding
 import com.haibin.calendarview.Calendar
-import com.haibin.calendarview.CalendarLayout
 import com.haibin.calendarview.CalendarView
 
 open class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener,
     CalendarView.OnYearChangeListener, View.OnClickListener {
-
-    var mTextMonthDay: TextView? = null
-
-    var mTextYear: TextView? = null
-
-    var mTextLunar: TextView? = null
-
-    var mTextCurrentDay: TextView? = null
-
-    var mCalendarView: CalendarView? = null
-
-    var mRelativeTool: RelativeLayout? = null
     var mYear = 0
-    var mCalendarLayout: CalendarLayout? = null
-    var mRecyclerView: GroupRecyclerView? = null
+
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initView()
         initData()
     }
 
     @SuppressLint("SetTextI18n")
     fun initView() {
-//        setStatusBarDarkMode()
-        mTextMonthDay = findViewById(R.id.tv_month_day)
-        mTextYear = findViewById(R.id.tv_year)
-        mTextLunar = findViewById(R.id.tv_lunar)
-        mRelativeTool = findViewById(R.id.rl_tool)
-        mCalendarView = findViewById(R.id.calendarView)
-        mTextCurrentDay = findViewById(R.id.tv_current_day)
-        mTextMonthDay!!.setOnClickListener(View.OnClickListener {
-            if (!mCalendarLayout!!.isExpand) {
-                mCalendarLayout!!.expand()
-                return@OnClickListener
+        binding.tvMonthDay.setOnClickListener {
+            if (!binding.calendarLayout.isExpand) {
+                binding.calendarLayout.expand()
+                return@setOnClickListener
             }
-            mCalendarView!!.showYearSelectLayout(mYear)
-            mTextLunar!!.visibility = View.GONE
-            mTextYear!!.visibility = View.GONE
-            mTextMonthDay!!.text = mYear.toString()
-        })
-        findViewById<FrameLayout>(R.id.fl_current).setOnClickListener(View.OnClickListener { mCalendarView!!.scrollToCurrent() })
-        mCalendarLayout = findViewById(R.id.calendarLayout)
-        mCalendarView!!.setOnCalendarSelectListener(this)
-        mCalendarView!!.setOnYearChangeListener(this)
-        mTextYear!!.text = mCalendarView!!.curYear.toString()
-        mYear = mCalendarView!!.curYear
-        mTextMonthDay!!.text =
-            mCalendarView!!.curMonth.toString() + "月" + mCalendarView!!.curDay + "日"
-        mTextLunar!!.text = "今日"
-        mTextCurrentDay!!.text = mCalendarView!!.curDay.toString()
+            binding.calendarView.showYearSelectLayout(mYear)
+            binding.tvLunar.visibility = View.GONE
+            binding.tvYear.visibility = View.GONE
+            binding.tvMonthDay.text = mYear.toString()
+        }
+        binding.flCurrent.setOnClickListener {
+            binding.calendarView.scrollToCurrent()
+        }
+        binding.calendarView.setOnCalendarSelectListener(this)
+        binding.calendarView.setOnYearChangeListener(this)
+        binding.tvYear.text = binding.calendarView.curYear.toString()
+        mYear = binding.calendarView.curYear
+        binding.tvMonthDay.text =
+            binding.calendarView.curMonth.toString() + "月" + binding.calendarView.curDay + "日"
+        binding.tvLunar.text = "今日"
+        binding.tvCurrentDay.text = binding.calendarView.curDay.toString()
     }
 
     fun initData() {
-        val year = mCalendarView!!.curYear
-        val month = mCalendarView!!.curMonth
+        val year = binding.calendarView.curYear
+        val month = binding.calendarView.curMonth
         val map = HashMap<String, Calendar>()
         map[getSchemeCalendar(year, month, 3, -0xbf24db, "假").toString()] =
             getSchemeCalendar(year, month, 3, -0xbf24db, "假")
@@ -92,7 +71,7 @@ open class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectList
         map[getSchemeCalendar(year, month, 27, -0xec5310, "多").toString()] =
             getSchemeCalendar(year, month, 27, -0xec5310, "多")
         //此方法在巨大的数据量上不影响遍历性能，推荐使用
-        mCalendarView!!.setSchemeDate(map)
+        binding.calendarView.setSchemeDate(map)
 //        mRecyclerView = findViewById(R.id.recyclerView)
 //        mRecyclerView.setLayoutManager(LinearLayoutManager(this))
 //        mRecyclerView.addItemDecoration(GroupItemDecoration<String, Article>())
@@ -118,7 +97,11 @@ open class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectList
         calendar.month = month
         calendar.day = day
         calendar.schemeColor = color //如果单独标记颜色、则会使用这个颜色
+
         calendar.scheme = text
+        calendar.addScheme(Calendar.Scheme())
+        calendar.addScheme(-0xff7800, "假")
+        calendar.addScheme(-0xff7800, "节")
         return calendar
     }
 
@@ -127,17 +110,23 @@ open class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectList
 
     @SuppressLint("SetTextI18n")
     override fun onCalendarSelect(calendar: Calendar, isClick: Boolean) {
-        mTextLunar!!.visibility = View.VISIBLE
-        mTextYear!!.visibility = View.VISIBLE
-        mTextMonthDay!!.text = calendar.month.toString() + "月" + calendar.day + "日"
-        mTextYear!!.text = calendar.year.toString()
-        mTextLunar!!.text = calendar.lunar
+        binding.tvLunar.visibility = View.VISIBLE
+        binding.tvYear.visibility = View.VISIBLE
+        binding.tvMonthDay.text = calendar.month.toString() + "月" + calendar.day + "日"
+        binding.tvYear.text = calendar.year.toString()
+        binding.tvLunar.text = calendar.lunar
         mYear = calendar.year
+
+        Log.e(
+            "onDateSelected", "  -- " + calendar.year +
+                    "  --  " + calendar.month +
+                    "  -- " + calendar.day +
+                    "  --  " + isClick + "  --   " + calendar.scheme
+        )
     }
 
     override fun onYearChange(year: Int) {
-        mTextMonthDay!!.text = year.toString()
+        binding.tvMonthDay.text = year.toString()
     }
-
 
 }
