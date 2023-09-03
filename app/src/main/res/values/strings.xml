@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">chronicle</string>
 
+    <string name="year_month">%d年%d月</string>
+
     <string-array name="english_week_string_array">
         <item>Sun</item>
         <item>Mon</item>

@@ -2,16 +2,21 @@ package com.buyehou.chronicle
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
+import android.text.format.DateUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.buyehou.chronicle.databinding.ActivityMainBinding
 import com.haibin.calendarview.Calendar
+import com.haibin.calendarview.CalendarUtil
 import com.haibin.calendarview.CalendarView
 
-open class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener,
-    CalendarView.OnYearChangeListener, View.OnClickListener {
-    var mYear = 0
+class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener,
+    CalendarView.OnYearChangeListener {
+
+    /**
+     * 当前年份
+     */
+    private var mYear = 0
 
     private lateinit var binding: ActivityMainBinding
 
@@ -20,32 +25,42 @@ open class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectList
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initView()
+        initListener()
         initData()
     }
 
     @SuppressLint("SetTextI18n")
     fun initView() {
-        binding.tvMonthDay.setOnClickListener {
+        mYear = binding.calendarView.curYear
+
+        binding.tvYearMonth.text = resources.getString(
+            R.string.year_month, binding.calendarView.curYear, binding.calendarView.curMonth
+        )
+        binding.tvToday.text = "今日"
+
+        binding.tvCurrentDay.text = binding.calendarView.curDay.toString()
+    }
+
+    private fun initListener() {
+        // 切换年月展开视图
+        binding.tvYearMonth.setOnClickListener {
             if (!binding.calendarLayout.isExpand) {
                 binding.calendarLayout.expand()
                 return@setOnClickListener
             }
             binding.calendarView.showYearSelectLayout(mYear)
-            binding.tvLunar.visibility = View.GONE
-            binding.tvYear.visibility = View.GONE
-            binding.tvMonthDay.text = mYear.toString()
+            binding.tvToday.visibility = View.GONE
+
+            binding.tvYearMonth.text = mYear.toString()
         }
+        // 回到当前日期
         binding.flCurrent.setOnClickListener {
             binding.calendarView.scrollToCurrent()
         }
+        // 日历选中
         binding.calendarView.setOnCalendarSelectListener(this)
+        // 年份改变
         binding.calendarView.setOnYearChangeListener(this)
-        binding.tvYear.text = binding.calendarView.curYear.toString()
-        mYear = binding.calendarView.curYear
-        binding.tvMonthDay.text =
-            binding.calendarView.curMonth.toString() + "月" + binding.calendarView.curDay + "日"
-        binding.tvLunar.text = "今日"
-        binding.tvCurrentDay.text = binding.calendarView.curDay.toString()
     }
 
     fun initData() {
@@ -79,16 +94,6 @@ open class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectList
 //        mRecyclerView.notifyDataSetChanged()
     }
 
-
-    override fun onClick(v: View) {
-        when (v.id) {
-//            R.id.ll_flyme -> MeiZuActivity.show(this)
-//            R.id.ll_simple -> SimpleActivity.show(this)
-//            R.id.ll_colorful -> com.haibin.calendarviewproject.colorful.ColorfulActivity.show(this)
-//            R.id.ll_index -> IndexActivity.show(this)
-        }
-    }
-
     open fun getSchemeCalendar(
         year: Int, month: Int, day: Int, color: Int, text: String
     ): Calendar {
@@ -117,16 +122,10 @@ open class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectList
         binding.tvLunar.text = calendar.lunar
         mYear = calendar.year
 
-        Log.e(
-            "onDateSelected", "  -- " + calendar.year +
-                    "  --  " + calendar.month +
-                    "  -- " + calendar.day +
-                    "  --  " + isClick + "  --   " + calendar.scheme
-        )
     }
 
     override fun onYearChange(year: Int) {
-        binding.tvMonthDay.text = year.toString()
+        binding.tvYearMonth.text = year.toString()
     }
 
 }
