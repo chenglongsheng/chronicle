@@ -46,6 +46,7 @@
                 tools:text="11天前" />
 
             <FrameLayout
+                android:id="@+id/fl_category"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginEnd="12dp"

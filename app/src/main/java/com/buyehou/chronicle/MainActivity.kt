@@ -2,12 +2,10 @@ package com.buyehou.chronicle
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.format.DateUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.buyehou.chronicle.databinding.ActivityMainBinding
 import com.haibin.calendarview.Calendar
-import com.haibin.calendarview.CalendarUtil
 import com.haibin.calendarview.CalendarView
 
 class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener,
@@ -61,6 +59,17 @@ class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener,
         binding.calendarView.setOnCalendarSelectListener(this)
         // 年份改变
         binding.calendarView.setOnYearChangeListener(this)
+        // 记录事件
+        binding.floatingActionBtn.setOnClickListener {
+            BottomSheetDialogFragment().show(
+                supportFragmentManager,
+                BottomSheetDialogFragment.TAG
+            )
+        }
+        // 展开标签分类
+        binding.flCategory.setOnClickListener {
+
+        }
     }
 
     fun initData() {
@@ -94,9 +103,7 @@ class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener,
 //        mRecyclerView.notifyDataSetChanged()
     }
 
-    open fun getSchemeCalendar(
-        year: Int, month: Int, day: Int, color: Int, text: String
-    ): Calendar {
+    fun getSchemeCalendar(year: Int, month: Int, day: Int, color: Int, text: String): Calendar {
         val calendar = Calendar()
         calendar.year = year
         calendar.month = month

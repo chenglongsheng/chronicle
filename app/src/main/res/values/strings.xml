@@ -2,6 +2,9 @@
     <string name="app_name">chronicle</string>
 
     <string name="year_month">%d年%d月</string>
+    <string name="clean_all_selections">清除所有选中项</string>
+    <string name="cancel">取消</string>
+    <string name="sure">确认</string>
 
     <string-array name="english_week_string_array">
         <item>Sun</item>
