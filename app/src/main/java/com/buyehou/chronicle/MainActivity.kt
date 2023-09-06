@@ -115,11 +115,11 @@ class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener,
 
     @SuppressLint("SetTextI18n")
     override fun onCalendarSelect(calendar: Calendar, isClick: Boolean) {
-        binding.tvLunar.visibility = View.VISIBLE
-        binding.tvYear.visibility = View.VISIBLE
-        binding.tvMonthDay.text = calendar.month.toString() + "月" + calendar.day + "日"
-        binding.tvYear.text = calendar.year.toString()
-        binding.tvLunar.text = calendar.lunar
+//        binding.tvLunar.visibility = View.VISIBLE
+//        binding.tvYear.visibility = View.VISIBLE
+//        binding.tvMonthDay.text = calendar.month.toString() + "月" + calendar.day + "日"
+//        binding.tvYear.text = calendar.year.toString()
+//        binding.tvLunar.text = calendar.lunar
         mYear = calendar.year
 
     }
