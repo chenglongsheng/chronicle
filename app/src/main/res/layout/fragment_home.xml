@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        tools:ignore="RtlHardcoded,HardcodedText,RtlSymmetry,SmallSp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rl_tool"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@color/colorPrimary">
+
+            <TextView
+                android:id="@+id/tv_year_month"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:textColor="#000000"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="RtlSymmetry"
+                tools:text="2023年9月" />
+
+            <TextView
+                android:id="@+id/tv_today"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingStart="5dp"
+                android:textColor="#99000000"
+                android:textSize="10sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tv_year_month"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintStart_toEndOf="@+id/tv_year_month"
+                tools:text="11天前" />
+
+            <FrameLayout
+                android:id="@+id/fl_category"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/bg_ripple"
+                app:layout_constraintBottom_toBottomOf="@+id/fl_current"
+                app:layout_constraintEnd_toStartOf="@+id/fl_current"
+                app:layout_constraintTop_toTopOf="@+id/fl_current">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/icon_discount_24" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_current"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/bg_ripple"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/ib_calendar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_calendar_today_24"
+                    app:tint="#000000" />
+
+                <TextView
+                    android:id="@+id/tv_current_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="29"
+                    android:textColor="#000000"
+                    android:textSize="12sp" />
+            </FrameLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.haibin.calendarview.CalendarLayout
+            android:id="@+id/calendarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:orientation="vertical"
+            app:calendar_content_view_id="@+id/recyclerView">
+
+            <com.haibin.calendarview.CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                app:calendar_padding="10dp"
+                app:current_month_lunar_text_color="#CFCFCF"
+                app:current_month_text_color="#333333"
+                app:max_year="2020"
+                app:min_year="2004"
+                app:month_view="com.buyehou.chronicle.widget.CustomMonthView"
+                app:month_view_show_mode="mode_fix"
+                app:other_month_lunar_text_color="#e1e1e1"
+                app:other_month_text_color="#e1e1e1"
+                app:scheme_text="假"
+                app:scheme_text_color="#333"
+                app:scheme_theme_color="#128c4b"
+                app:selected_lunar_text_color="#fff"
+                app:selected_text_color="#fff"
+                app:selected_theme_color="#046cea"
+                app:week_background="#fff"
+                app:week_start_with="sun"
+                app:week_text_color="#e1e1e1"
+                app:week_view="com.buyehou.chronicle.widget.CustomWeekView"
+                app:year_view="com.buyehou.chronicle.widget.CustomYearView"
+                app:year_view_day_text_color="#333333"
+                app:year_view_day_text_size="7sp"
+                app:year_view_month_text_color="#ff0000"
+                app:year_view_month_text_size="20sp"
+                app:year_view_scheme_color="#f17706"
+                app:year_view_select_text_color="#fff"
+                app:year_view_week_height="12dp"
+                app:year_view_week_text_color="#e1e1e1"
+                app:year_view_week_text_size="6sp" />
+
+            <com.buyehou.chronicle.group.GroupRecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/content_background"
+                app:group_background="@color/content_background"
+                app:group_center="false"
+                app:group_has_header="false"
+                app:group_height="42dp"
+                app:group_padding_left="16dp"
+                app:group_padding_right="16dp"
+                app:group_text_color="#555555"
+                app:group_text_size="14sp" />
+
+        </com.haibin.calendarview.CalendarLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="20dp"
+        android:contentDescription="@string/app_name"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_add_24" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
