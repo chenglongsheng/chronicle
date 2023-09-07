@@ -16,22 +16,13 @@ import com.haibin.calendarview.CalendarView
  * @author Rosen
  * @date 2023/9/6 16:54
  */
-class HomeFragment : BaseFragment(), CalendarView.OnCalendarSelectListener,
+class HomeFragment : BaseFragment<FragmentHomeBinding>(), CalendarView.OnCalendarSelectListener,
     CalendarView.OnYearChangeListener {
 
     /**
      * 当前年份
      */
     private var mYear = 0
-
-    private lateinit var binding: FragmentHomeBinding
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentHomeBinding.inflate(inflater)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
