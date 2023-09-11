@@ -14,6 +14,8 @@ import com.buyehou.chronicle.util.createBinding
  */
 abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
+    protected val TAG: String = javaClass.simpleName
+
     protected val binding: T
         get() = _binding!!
 
@@ -29,9 +31,25 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        setListener()
+    }
+
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
     }
+
+    /**
+     * 初始化view参数
+     */
+    abstract fun initView()
+
+    /**
+     * 设置监听器
+     */
+    abstract fun setListener()
 
 }

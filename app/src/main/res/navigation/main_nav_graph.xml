@@ -9,8 +9,12 @@
         android:id="@+id/homeFragment"
         android:name="com.buyehou.chronicle.page.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" />
-    <dialog
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_addEventFragment"
+            app:destination="@id/addEventFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/addEventFragment"
         android:name="com.buyehou.chronicle.page.controller.AddEventFragment"
         android:label="AddEventFragment" />

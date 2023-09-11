@@ -2,10 +2,10 @@ package com.buyehou.chronicle.page.home
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import com.buyehou.chronicle.BottomSheetDialogFragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.buyehou.chronicle.R
 import com.buyehou.chronicle.base.BaseFragment
 import com.buyehou.chronicle.databinding.FragmentHomeBinding
@@ -19,41 +19,41 @@ import com.haibin.calendarview.CalendarView
 class HomeFragment : BaseFragment<FragmentHomeBinding>(), CalendarView.OnCalendarSelectListener,
     CalendarView.OnYearChangeListener {
 
-    /**
-     * 当前年份
-     */
-    private var mYear = 0
+    companion object {
+        const val KEY_SELECT_DATE = "KEY_SELECT_DATE"
+    }
+
+    private val model: HomeViewModel by viewModels()
+
+    private lateinit var curCalendar: Calendar
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
-        initListener()
         initData()
     }
 
     @SuppressLint("SetTextI18n")
-    fun initView() {
-        mYear = binding.calendarView.curYear
-
-        binding.tvYearMonth.text = resources.getString(
-            R.string.year_month, binding.calendarView.curYear, binding.calendarView.curMonth
-        )
+    override fun initView() {
+        curCalendar = binding.calendarView.selectedCalendar
+        model.curCalendar.value = curCalendar
+        model.curCalendar.observe(this) {
+            binding.tvYearMonth.text = getString(R.string.year_month, it.year, it.month)
+        }
         binding.tvToday.text = "今日"
-
-        binding.tvCurrentDay.text = binding.calendarView.curDay.toString()
+        binding.tvCurrentDay.text = curCalendar.day.toString()
     }
 
-    private fun initListener() {
+    override fun setListener() {
         // 切换年月展开视图
         binding.tvYearMonth.setOnClickListener {
             if (!binding.calendarLayout.isExpand) {
                 binding.calendarLayout.expand()
                 return@setOnClickListener
             }
-            binding.calendarView.showYearSelectLayout(mYear)
+            binding.calendarView.showYearSelectLayout(curCalendar.year)
             binding.tvToday.visibility = View.GONE
 
-            binding.tvYearMonth.text = mYear.toString()
+
         }
         // 回到当前日期
         binding.flCurrent.setOnClickListener {
@@ -65,10 +65,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), CalendarView.OnCalenda
         binding.calendarView.setOnYearChangeListener(this)
         // 记录事件
         binding.floatingActionBtn.setOnClickListener {
-            BottomSheetDialogFragment().show(
-                parentFragmentManager,
-                BottomSheetDialogFragment.TAG
-            )
+            findNavController().navigate(
+                R.id.action_homeFragment_to_addEventFragment,
+                Bundle().apply {
+                    this.putSerializable(KEY_SELECT_DATE, model.curCalendar.value)
+                })
         }
         // 展开标签分类
         binding.flCategory.setOnClickListener {
@@ -126,10 +127,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), CalendarView.OnCalenda
     }
 
     override fun onCalendarSelect(calendar: Calendar, isClick: Boolean) {
-        mYear = calendar.year
+        Log.d(TAG, "onCalendarSelect: calendar[$calendar] isClick[$isClick]")
+        model.curCalendar.value = calendar
     }
 
     override fun onYearChange(year: Int) {
-        binding.tvYearMonth.text = year.toString()
+        Log.d(TAG, "onYearChange: year[$year]")
     }
+
 }
