@@ -9,5 +9,4 @@ interface BaseDao<T> {
     fun insert(value: T)
     fun delete(value: T)
     fun update(value: T)
-    fun query(id: Int)
 }

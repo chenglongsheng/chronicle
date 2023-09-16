@@ -6,9 +6,11 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.buyehou.chronicle.R
 import com.buyehou.chronicle.base.BaseFragment
 import com.buyehou.chronicle.databinding.FragmentHomeBinding
+import com.buyehou.chronicle.group.GroupItemDecoration
 import com.haibin.calendarview.Calendar
 import com.haibin.calendarview.CalendarView
 
@@ -102,7 +104,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), CalendarView.OnCalenda
         //此方法在巨大的数据量上不影响遍历性能，推荐使用
         binding.calendarView.setSchemeDate(map)
 //        mRecyclerView = findViewById(R.id.recyclerView)
-//        mRecyclerView.setLayoutManager(LinearLayoutManager(this))
+//        mRecyclerView.setLayoutManager(LinearLayoutManager(requireContext()))
 //        mRecyclerView.addItemDecoration(GroupItemDecoration<String, Article>())
 //        mRecyclerView.setAdapter(ArticleAdapter(this))
 //        mRecyclerView.notifyDataSetChanged()

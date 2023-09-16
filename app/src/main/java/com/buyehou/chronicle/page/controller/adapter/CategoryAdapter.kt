@@ -8,17 +8,23 @@ import androidx.recyclerview.widget.RecyclerView
  * @author Rosen
  * @date 2023/9/6 16:55
  */
-class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ItemViewHolder>() {
+class CategoryAdapter<T> : RecyclerView.Adapter<CategoryAdapter<T>.ItemViewHolder>() {
+
+    private val data = mutableListOf<T>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(parent)
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return data.size
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+
+    }
+
+    fun addData(data: List<T>) {
 
     }
 

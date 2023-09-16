@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.buyehou.chronicle.ChronicleApplication
 import com.buyehou.chronicle.dao.CategoryDao
 import com.buyehou.chronicle.dao.ContentDao
@@ -16,8 +17,9 @@ import com.buyehou.chronicle.entity.Event
  * @author Rosen
  * @date 2023/9/6 11:44
  */
-@Database(version = 1, entities = [Event::class, Category::class, Content::class])
-abstract class ChronicleDatabase private constructor() : RoomDatabase() {
+@Database(version = 1, entities = [Event::class, Category::class, Content::class], exportSchema = false)
+@TypeConverters(Converters::class)
+abstract class ChronicleDatabase() : RoomDatabase() {
     abstract fun getEventDao(): EventDao
     abstract fun getCategoryDao(): CategoryDao
     abstract fun getContentDao(): ContentDao
