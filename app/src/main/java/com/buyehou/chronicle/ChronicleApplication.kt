@@ -3,6 +3,7 @@ package com.buyehou.chronicle
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import com.google.android.material.color.DynamicColors
 
 /**
  * @author Rosen
@@ -17,6 +18,7 @@ class ChronicleApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        DynamicColors.applyToActivitiesIfAvailable(this)
         context = applicationContext
     }
 
