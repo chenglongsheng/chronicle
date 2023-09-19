@@ -5,6 +5,10 @@
     <string name="clean_all_selections">清除所有选中项</string>
     <string name="cancel">取消</string>
     <string name="sure">确认</string>
+    <string name="page_title">add</string>
+    <string name="undo">撤销</string>
+    <string name="redo">重做</string>
+    <string name="check">确认</string>
 
     <string-array name="english_week_string_array">
         <item>Sun</item>
