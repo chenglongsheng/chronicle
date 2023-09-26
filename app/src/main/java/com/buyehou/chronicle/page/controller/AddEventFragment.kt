@@ -2,15 +2,11 @@ package com.buyehou.chronicle.page.controller
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.buyehou.chronicle.R
 import com.buyehou.chronicle.base.BaseFragment
 import com.buyehou.chronicle.databinding.FragmentAddEventBinding
-import com.buyehou.chronicle.db.ChronicleDatabase
 import com.buyehou.chronicle.page.home.HomeFragment
 import com.haibin.calendarview.Calendar
 
@@ -41,20 +37,21 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>() {
     }
 
     override fun setListener() {
-        binding.btnCancel.setOnClickListener {
+        binding.topAppBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
-        binding.btnSure.setOnClickListener {
-            saveEvent()
-            findNavController().popBackStack()
+        binding.topAppBar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.check -> {
+                    true
+                }
+
+                else -> false
+            }
         }
     }
 
     private fun saveEvent() {
-        val eventDao = ChronicleDatabase.instance.getEventDao()
-        val title = binding.etTitle.text
-        val content = binding.etContent.text
-        Log.d(TAG, "saveEvent: ${title.length} ${content.length}")
 
     }
 
