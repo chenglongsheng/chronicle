@@ -2,12 +2,15 @@ package com.buyehou.chronicle.page.controller
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.navigation.fragment.findNavController
 import com.buyehou.chronicle.R
 import com.buyehou.chronicle.base.BaseFragment
 import com.buyehou.chronicle.databinding.FragmentAddEventBinding
 import com.buyehou.chronicle.page.home.HomeFragment
+import com.buyehou.chronicle.util.KeyboardUtils
 import com.haibin.calendarview.Calendar
 
 /**
@@ -28,12 +31,13 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>() {
         Log.d(TAG, "onCreate: $calendar")
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     override fun initView() {
-
+        KeyboardUtils.registerKeyboardHeightListener(requireActivity(),
+            object : KeyboardUtils.KeyboardHeightListener {
+                override fun onKeyboardHeightChanged(height: Int) {
+                    updateToolBarHeight(height)
+                }
+            })
     }
 
     override fun setListener() {
@@ -53,6 +57,20 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>() {
 
     private fun saveEvent() {
 
+    }
+
+    private fun updateToolBarHeight(height: Int) {
+        binding.llToolBar.isVisible = height > 0
+        val alpha = (height / 300).toFloat()
+        if (alpha >= 1) {
+            binding.llToolBar.alpha = 1.0f
+        } else {
+            binding.llToolBar.alpha = alpha
+        }
+
+        binding.llToolBar.updateLayoutParams<CoordinatorLayout.LayoutParams> {
+            this.bottomMargin = height
+        }
     }
 
 }

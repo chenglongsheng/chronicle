@@ -9,18 +9,65 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <EditText
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:hint="@string/start_edit"
-            android:importantForAutofill="no"
-            android:inputType="none" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/et_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:cursorVisible="true"
+                android:hint="@string/title"
+                android:importantForAutofill="no"
+                android:inputType="none" />
+
+            <TextView
+                android:id="@+id/tv_date_and_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9月26日 20:45丨0字"
+                tools:text="9月26日 20:45丨0字" />
+
+            <EditText
+                android:id="@+id/et_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="@string/start_edit"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine" />
+
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/ll_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        tools:visibility="visible">
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -32,22 +79,6 @@
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/top_bar_edit"
             app:navigationIcon="@drawable/ic_back_24" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:cursorVisible="true"
-            android:hint="@string/title"
-            android:importantForAutofill="no"
-            android:inputType="none" />
-
-        <TextView
-            android:id="@+id/tv_date_and_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="9月26日 20:45丨0字"
-            tools:text="9月26日 20:45丨0字" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
