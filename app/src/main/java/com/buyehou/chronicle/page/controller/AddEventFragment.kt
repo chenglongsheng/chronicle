@@ -31,6 +31,11 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>() {
         Log.d(TAG, "onCreate: $calendar")
     }
 
+    override fun onDestroyView() {
+        KeyboardUtils.unregisterKeyboardHeightListener(requireActivity())
+        super.onDestroyView()
+    }
+
     override fun initView() {
         KeyboardUtils.registerKeyboardHeightListener(requireActivity(),
             object : KeyboardUtils.KeyboardHeightListener {
