@@ -34,13 +34,17 @@
                 tools:text="9月26日 20:45丨0字" />
 
             <EditText
-                android:id="@+id/et_content"
+                android:id="@+id/edit_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autofillHints="none"
                 android:background="@android:color/transparent"
                 android:hint="@string/start_edit"
-                android:importantForAutofill="no"
-                android:inputType="textMultiLine" />
+                android:inputType="text|textLongMessage|textMultiLine"
+                android:lineSpacingExtra="2dp"
+                android:padding="16dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimary" />
 
         </LinearLayout>
 

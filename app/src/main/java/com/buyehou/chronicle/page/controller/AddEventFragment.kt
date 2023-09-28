@@ -11,6 +11,7 @@ import com.buyehou.chronicle.base.BaseFragment
 import com.buyehou.chronicle.databinding.FragmentAddEventBinding
 import com.buyehou.chronicle.page.home.HomeFragment
 import com.buyehou.chronicle.util.KeyboardUtils
+import com.buyehou.markdown.Markwon
 import com.haibin.calendarview.Calendar
 
 /**
@@ -25,6 +26,11 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>() {
         private const val TAG = "AddEventFragment"
     }
 
+    private val md = """
+        # 我是Markdown
+        昂首滴哈岁的
+    """.trimIndent()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         calendar = arguments?.getSerializable(HomeFragment.KEY_SELECT_DATE) as? Calendar
@@ -33,16 +39,20 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>() {
 
     override fun onDestroyView() {
         KeyboardUtils.unregisterKeyboardHeightListener(requireActivity())
+        saveEvent()
         super.onDestroyView()
     }
 
     override fun initView() {
-        KeyboardUtils.registerKeyboardHeightListener(requireActivity(),
+        KeyboardUtils.registerKeyboardHeightListener(
+            requireActivity(),
             object : KeyboardUtils.KeyboardHeightListener {
                 override fun onKeyboardHeightChanged(height: Int) {
                     updateToolBarHeight(height)
                 }
             })
+        val markwon = Markwon.create(requireContext())
+        markwon.setMarkdown(binding.editView, md)
     }
 
     override fun setListener() {
@@ -50,8 +60,18 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>() {
             findNavController().popBackStack()
         }
         binding.topAppBar.setOnMenuItemClickListener {
+            Log.d(TAG, "setOnMenuItemClickListener: ")
             when (it.itemId) {
                 R.id.check -> {
+                    findNavController().popBackStack()
+                    true
+                }
+
+                R.id.redo -> {
+                    true
+                }
+
+                R.id.undo -> {
                     true
                 }
 
