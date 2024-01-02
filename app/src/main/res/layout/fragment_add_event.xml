@@ -6,9 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="none"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -21,7 +22,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:cursorVisible="true"
                 android:hint="@string/title"
                 android:importantForAutofill="no"
                 android:inputType="none" />
@@ -36,19 +36,17 @@
             <EditText
                 android:id="@+id/edit_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:autofillHints="none"
                 android:background="@android:color/transparent"
                 android:hint="@string/start_edit"
                 android:inputType="text|textLongMessage|textMultiLine"
-                android:lineSpacingExtra="2dp"
-                android:padding="16dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="?android:attr/textColorPrimary" />
 
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/ll_tool_bar"

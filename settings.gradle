@@ -16,4 +16,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "chronicle"
 include ':app'
-include ':markdown-core'
+include ':richtext'

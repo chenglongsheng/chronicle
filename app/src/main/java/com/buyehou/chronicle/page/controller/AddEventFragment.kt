@@ -2,7 +2,12 @@ package com.buyehou.chronicle.page.controller
 
 import android.os.Bundle
 import android.util.Log
+import android.view.ActionMode
+import android.view.Menu
+import android.view.MenuItem
+import android.view.inputmethod.InputMethodManager
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.getSystemService
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.navigation.fragment.findNavController
@@ -11,7 +16,6 @@ import com.buyehou.chronicle.base.BaseFragment
 import com.buyehou.chronicle.databinding.FragmentAddEventBinding
 import com.buyehou.chronicle.page.home.HomeFragment
 import com.buyehou.chronicle.util.KeyboardUtils
-import com.buyehou.markdown.Markwon
 import com.haibin.calendarview.Calendar
 
 /**
@@ -26,11 +30,6 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>() {
         private const val TAG = "AddEventFragment"
     }
 
-    private val md = """
-        # 我是Markdown
-        昂首滴哈岁的
-    """.trimIndent()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         calendar = arguments?.getSerializable(HomeFragment.KEY_SELECT_DATE) as? Calendar
@@ -44,15 +43,37 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>() {
     }
 
     override fun initView() {
-        KeyboardUtils.registerKeyboardHeightListener(
-            requireActivity(),
+        KeyboardUtils.registerKeyboardHeightListener(requireActivity(),
             object : KeyboardUtils.KeyboardHeightListener {
                 override fun onKeyboardHeightChanged(height: Int) {
                     updateToolBarHeight(height)
                 }
             })
-        val markwon = Markwon.create(requireContext())
-        markwon.setMarkdown(binding.editView, md)
+        binding.editView.customSelectionActionModeCallback = object : ActionMode.Callback {
+            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                Log.d(TAG, "onCreateActionMode: ")
+                return true
+            }
+
+            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                Log.d(TAG, "onPrepareActionMode: ")
+                return true
+            }
+
+            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+                Log.d(TAG, "onActionItemClicked: ")
+                return true
+            }
+
+            override fun onDestroyActionMode(mode: ActionMode?) {
+                Log.d(TAG, "onDestroyActionMode: ")
+            }
+        }
+
+        binding.editView.setOnFocusChangeListener { _, hasFocus ->
+            Log.d(TAG, "setOnFocusChangeListener: $hasFocus")
+        }
+        val imm = context?.getSystemService<InputMethodManager>()
     }
 
     override fun setListener() {
